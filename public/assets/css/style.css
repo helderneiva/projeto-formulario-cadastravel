@@ -311,6 +311,81 @@ input:-webkit-autofill:focus {
     width: 100%;
 }
 
+/* Opção "Mostrar senha": caixa de seleção seguida do rótulo. Fica fora
+   de ".campo" para não herdar o estilo dos campos de texto. */
+.campo-opcao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: -8px 0 20px;
+}
+
+.campo-opcao input[type="checkbox"] {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--cor-destaque);
+    cursor: pointer;
+}
+
+.campo-opcao label {
+    color: var(--cor-texto);
+    font-family: var(--fonte-interface);
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+/* Data de nascimento: texto digitável + botão que abre o calendário.
+   O input type="date" fica invisível sobre o botão, só para ancorar o
+   calendário do navegador. */
+.campo-data {
+    position: relative;
+    display: flex;
+    gap: 8px;
+}
+
+.campo .campo-data input[type="text"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.botao-calendario {
+    flex: none;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 1px solid var(--cor-borda-campo);
+    border-radius: var(--raio-campo);
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+    cursor: pointer;
+}
+
+.botao-calendario:hover {
+    background-color: var(--fundo-input-hover);
+}
+
+.botao-calendario svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+
+.campo .campo-data input[type="date"].calendario-oculto {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* Alertas */
 .alerta {
     margin-bottom: 20px;

@@ -13,11 +13,12 @@ Auth::exigirVisitante();
 $flash = Flash::ler();
 $erros = $flash['erros'];
 $sucesso = $flash['sucesso'];
-$emailAntigo = $flash['antigos']['email'] ?? '';
+$identificadorAntigo = $flash['antigos']['identificador'] ?? '';
 
 $titulo = 'Entrar';
 $estilos = ['auth.css'];
 $classeBody = 'pagina-auth';
+$scripts = ['mostrar-senha.js'];
 $tituloErros = 'Não foi possível entrar:';
 
 require dirname(__DIR__) . '/templates/header.php';
@@ -31,15 +32,17 @@ require dirname(__DIR__) . '/templates/header.php';
             <?= Csrf::campo() ?>
 
             <div class="campo">
-                <label for="email">E-mail</label>
+                <label for="identificador">User ID ou e-mail</label>
                 <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value="<?= e($emailAntigo) ?>"
+                    type="text"
+                    name="identificador"
+                    id="identificador"
+                    value="<?= e($identificadorAntigo) ?>"
                     autocomplete="username"
+                    autocapitalize="none"
+                    spellcheck="false"
                     maxlength="254"
-                    placeholder="seuemail@exemplo.com"
+                    placeholder="Seu user id ou e-mail"
                     required
                 >
             </div>
@@ -50,10 +53,16 @@ require dirname(__DIR__) . '/templates/header.php';
                     type="password"
                     name="senha"
                     id="senha"
+                    data-campo-senha
                     autocomplete="current-password"
                     placeholder="Digite sua senha"
                     required
                 >
+            </div>
+
+            <div class="campo-opcao" data-mostrar-senha-opcao hidden>
+                <input type="checkbox" id="mostrar-senha" data-mostrar-senha>
+                <label for="mostrar-senha">Mostrar senha</label>
             </div>
 
             <button class="botao botao-bloco" type="submit">Entrar</button>

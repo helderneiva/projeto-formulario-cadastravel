@@ -21,22 +21,28 @@ if (!Csrf::validar($_POST['csrf_token'] ?? null)) {
     $erros[] = 'A sessão do formulário expirou ou é inválida. Tente novamente.';
 }
 
-$email = $_POST['email'] ?? null;
+// Pode ser o user id ou o e-mail.
+$identificador = $_POST['identificador'] ?? null;
 $senha = $_POST['senha'] ?? null;
 
 if (
-    !is_string($email)
+    !is_string($identificador)
     || !is_string($senha)
-    || trim($email) === ''
+    || trim($identificador) === ''
     || $senha === ''
 ) {
-    $erros[] = 'Informe o e-mail e a senha.';
+    $erros[] = 'Informe o user id (ou e-mail) e a senha.';
 }
 
 if ($erros === []) {
     try {
+        $identificador = trim($identificador);
         $repositorio = new UsuarioRepository(Database::conectar());
-        $usuario = $repositorio->buscarPorEmail(trim($email));
+
+        // O user id não pode conter "@"; portanto, quem tem "@" é e-mail.
+        $usuario = str_contains($identificador, '@')
+            ? $repositorio->buscarPorEmail($identificador)
+            : $repositorio->buscarPorLogin(strtolower($identificador));
 
         if ($usuario !== null && $usuario->verificarSenha($senha)) {
             Auth::logar((int) $usuario->getId());
@@ -44,14 +50,14 @@ if ($erros === []) {
         }
 
         if ($usuario === null) {
-            // E-mail inexistente: gasta um tempo parecido com o de uma
+            // Usuário inexistente: gasta um tempo parecido com o de uma
             // verificação real, para que a demora não revele quais
-            // e-mails existem no sistema.
+            // user ids e e-mails existem no sistema.
             password_hash($senha, PASSWORD_DEFAULT);
         }
 
-        // Mesma mensagem para e-mail inexistente e senha errada.
-        $erros[] = 'E-mail ou senha incorretos.';
+        // Mesma mensagem para usuário inexistente e senha errada.
+        $erros[] = 'User ID, e-mail ou senha incorretos.';
 
     } catch (\PDOException | \ValueError | \InvalidArgumentException $e) {
         // Detalhes técnicos vão para o log, nunca para o usuário.
@@ -61,10 +67,10 @@ if ($erros === []) {
     }
 }
 
-// Falhou: devolve ao formulário com a mensagem e o e-mail digitado
+// Falhou: devolve ao formulário com a mensagem e o identificador digitado
 // (a senha nunca é devolvida).
 Flash::erros($erros);
 Flash::antigos([
-    'email' => is_string($email) ? $email : '',
+    'identificador' => is_string($identificador) ? $identificador : '',
 ]);
 redirecionar('login.php');

@@ -8,17 +8,40 @@
 document.addEventListener('DOMContentLoaded', () => {
     const TAMANHO_MAXIMO_FOTO = 2 * 1024 * 1024; // 2 MB
 
-    // 1. Mostra o valor atual da barra de nota.
+    // 1. Barra de nota: mostra o valor, uma carinha e a cor
+    //    (vermelho perto do 0, verde perto do 10).
+    const EMOJIS = ['😭', '😢', '😞', '😔', '😕', '😐', '🙂', '😊', '😄', '😁', '🤩'];
     const nota = document.getElementById('nota');
     const notaValor = document.getElementById('nota-valor');
+    const notaEmoji = document.getElementById('nota-emoji');
 
     if (nota && notaValor) {
-        const atualizarNota = () => {
+        const campoNota = nota.closest('.campo');
+
+        const atualizarNota = (animar) => {
+            const valor = Number(nota.value);
+
             notaValor.textContent = nota.value;
+
+            if (campoNota) {
+                // Matiz 0 = vermelho; 130 = verde.
+                campoNota.style.setProperty('--nota-cor', 'hsl(' + valor * 13 + ', 85%, 58%)');
+                campoNota.style.setProperty('--nota-frac', String(valor / 10));
+            }
+
+            if (notaEmoji) {
+                notaEmoji.textContent = EMOJIS[valor] || '';
+
+                if (animar) {
+                    notaEmoji.classList.remove('pop');
+                    void notaEmoji.offsetWidth; // reinicia a animação
+                    notaEmoji.classList.add('pop');
+                }
+            }
         };
 
-        nota.addEventListener('input', atualizarNota);
-        atualizarNota();
+        nota.addEventListener('input', () => atualizarNota(true));
+        atualizarNota(false);
     }
 
     // 2. Contador de caracteres do feedback.

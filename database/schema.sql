@@ -6,16 +6,23 @@ CREATE DATABASE IF NOT EXISTS ex004
 
 USE ex004;
 
+-- "login" é o user id escolhido no cadastro (minúsculas, 3 a 30 caracteres).
+-- As colunas "login" e "data_nascimento" aceitam NULL somente para que
+-- usuários criados antes desta versão continuem existindo; o cadastro
+-- novo sempre exige os dois campos (validação feita em src/Models/Usuario.php).
 CREATE TABLE IF NOT EXISTS usuarios (
-    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nome       VARCHAR(150) NOT NULL,
-    email      VARCHAR(254) NOT NULL,
-    senha_hash VARCHAR(255) NOT NULL,
-    tipo       ENUM('admin', 'comum') NOT NULL DEFAULT 'comum',
-    foto       VARCHAR(255) NULL,
-    criado_em  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nome            VARCHAR(150) NOT NULL,
+    login           VARCHAR(30) NULL,
+    email           VARCHAR(254) NOT NULL,
+    data_nascimento DATE NULL,
+    senha_hash      VARCHAR(255) NOT NULL,
+    tipo            ENUM('admin', 'comum') NOT NULL DEFAULT 'comum',
+    foto            VARCHAR(255) NULL,
+    criado_em       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    UNIQUE KEY uq_usuarios_email (email)
+    UNIQUE KEY uq_usuarios_email (email),
+    UNIQUE KEY uq_usuarios_login (login)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;

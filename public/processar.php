@@ -7,6 +7,7 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 use App\Config\Database;
 use App\Enums\TipoUsuario;
 use App\Exceptions\EmailJaCadastradoException;
+use App\Exceptions\LoginJaCadastradoException;
 use App\Models\Usuario;
 use App\Repositories\UsuarioRepository;
 use App\Support\Csrf;
@@ -24,13 +25,17 @@ if (!Csrf::validar($_POST['csrf_token'] ?? null)) {
 }
 
 $nome = $_POST['nome'] ?? null;
+$login = $_POST['login'] ?? null;
 $email = $_POST['email'] ?? null;
+$dataNascimento = $_POST['data_nascimento'] ?? null;
 $senha = $_POST['senha'] ?? null;
 $confirmacao = $_POST['senha_confirmacao'] ?? null;
 
 if (
     !is_string($nome)
+    || !is_string($login)
     || !is_string($email)
+    || !is_string($dataNascimento)
     || !is_string($senha)
     || !is_string($confirmacao)
 ) {
@@ -44,6 +49,8 @@ if ($erros === []) {
         $usuario = Usuario::criarNovo(
             email: $email,
             nome: $nome,
+            login: $login,
+            dataNascimento: $dataNascimento,
             senhaTextoPuro: $senha,
             tipo: TipoUsuario::COMUM
         );
@@ -57,7 +64,11 @@ if ($erros === []) {
         Flash::sucesso('Cadastro realizado com sucesso! Faça login para continuar.');
         redirecionar('login.php');
 
-    } catch (EmailJaCadastradoException | \InvalidArgumentException $e) {
+    } catch (
+        EmailJaCadastradoException
+        | LoginJaCadastradoException
+        | \InvalidArgumentException $e
+    ) {
         // As mensagens destas exceções foram escritas para o usuário.
         $erros[] = $e->getMessage();
 
@@ -76,7 +87,9 @@ if ($erros === []) {
 // (a senha nunca é devolvida).
 Flash::erros($erros);
 Flash::antigos([
-    'nome'  => is_string($nome) ? $nome : '',
-    'email' => is_string($email) ? $email : '',
+    'nome'            => is_string($nome) ? $nome : '',
+    'login'           => is_string($login) ? $login : '',
+    'email'           => is_string($email) ? $email : '',
+    'data_nascimento' => is_string($dataNascimento) ? $dataNascimento : '',
 ]);
 redirecionar('cadastro.php');
