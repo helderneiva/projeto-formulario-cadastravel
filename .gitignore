@@ -1,0 +1,18 @@
+# Dependências instaladas pelo Composer (qualquer um recria com "composer install")
+/vendor/
+
+# Credenciais reais do banco: NUNCA versionar
+.env
+
+# Fotos enviadas pelos usuários (a pasta e o .htaccess continuam versionados)
+/public/uploads/avatars/*
+!/public/uploads/avatars/.gitkeep
+
+# Arquivos de sistema e de editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log

@@ -1,0 +1,331 @@
+@charset "UTF-8";
+
+/* ========================================
+   STYLE.CSS: estilos compartilhados por todas as páginas
+   Sumário:
+   1. Variáveis
+   2. Reset e documento
+   3. Container e tipografia
+   4. Cartão
+   5. Campos de formulário
+   6. Botões
+   7. Alertas
+   8. Links
+   9. Utilidades
+   10. Responsividade
+   11. Movimento reduzido
+======================================== */
+
+/* ========================================
+   1. VARIÁVEIS
+======================================== */
+
+:root {
+    color-scheme: light;
+
+    /* Cores */
+    --cor-fundo: #f4f6f9;
+    --cor-superficie: #ffffff;
+    --cor-texto: #202938;
+    --cor-texto-secundario: #64748b;
+    --cor-borda: #dbe2ea;
+    --cor-destaque: #2563eb;
+    --cor-destaque-hover: #1d4ed8;
+    --cor-sucesso: #166534;
+    --cor-fundo-sucesso: #f0fdf4;
+    --cor-borda-sucesso: #bbf7d0;
+    --cor-erro: #b91c1c;
+    --cor-fundo-erro: #fef2f2;
+    --cor-borda-erro: #fecaca;
+
+    /* Tipografia */
+    --fonte-principal: Arial, Helvetica, sans-serif;
+
+    /* Dimensões */
+    --largura-container: 672px;
+    --raio-borda: 10px;
+    --raio-campo: 5px;
+    --sombra-cartao: 0 8px 24px rgb(15 23 42 / 6%);
+}
+
+/* ========================================
+   2. RESET E DOCUMENTO
+======================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: var(--fonte-principal);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 32px 16px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* Garante que o atributo "hidden" funcione mesmo com display definido. */
+[hidden] {
+    display: none !important;
+}
+
+/* ========================================
+   3. CONTAINER E TIPOGRAFIA
+======================================== */
+
+.conteudo {
+    width: 100%;
+    max-width: var(--largura-container);
+    margin-inline: auto;
+}
+
+h1 {
+    margin: 0 0 24px;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+}
+
+h2 {
+    margin: 0 0 16px;
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+p {
+    margin: 0 0 16px;
+}
+
+/* ========================================
+   4. CARTÃO
+======================================== */
+
+.cartao {
+    padding: 32px;
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    box-shadow: var(--sombra-cartao);
+}
+
+/* ========================================
+   5. CAMPOS DE FORMULÁRIO
+======================================== */
+
+.campo {
+    margin-bottom: 20px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.campo input:not([type="range"]):not([type="file"]),
+.campo select,
+.campo textarea {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-campo);
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+    font-family: inherit;
+    font-size: 1em;
+}
+
+.campo input[type="file"] {
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95em;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+    color: var(--cor-texto-secundario);
+    opacity: 1;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--cor-destaque);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid rgb(37 99 235 / 40%);
+    outline-offset: 2px;
+}
+
+/* Texto de ajuda abaixo de um campo. */
+.ajuda {
+    display: block;
+    margin-top: 6px;
+    color: var(--cor-texto-secundario);
+    font-size: 0.875em;
+}
+
+/* ========================================
+   6. BOTÕES
+======================================== */
+
+.botao {
+    display: inline-block;
+    min-height: 44px;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--raio-campo);
+    background-color: var(--cor-destaque);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.botao:hover {
+    background-color: var(--cor-destaque-hover);
+}
+
+.botao:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.botao-secundario {
+    border-color: var(--cor-borda);
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+}
+
+.botao-secundario:hover {
+    background-color: var(--cor-fundo);
+}
+
+.botao-bloco {
+    display: block;
+    width: 100%;
+}
+
+/* ========================================
+   7. ALERTAS
+======================================== */
+
+.alerta {
+    margin-bottom: 20px;
+    padding: 16px;
+    border: 1px solid transparent;
+    border-radius: var(--raio-campo);
+}
+
+.alerta p {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.alerta ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alerta-sucesso {
+    border-color: var(--cor-borda-sucesso);
+    background-color: var(--cor-fundo-sucesso);
+    color: var(--cor-sucesso);
+}
+
+.alerta-erro {
+    border-color: var(--cor-borda-erro);
+    background-color: var(--cor-fundo-erro);
+    color: var(--cor-erro);
+}
+
+/* ========================================
+   8. LINKS
+======================================== */
+
+a {
+    color: var(--cor-destaque);
+}
+
+a:hover {
+    color: var(--cor-destaque-hover);
+}
+
+/* ========================================
+   9. UTILIDADES
+======================================== */
+
+/* Esconde visualmente, mas mantém para leitores de tela. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========================================
+   10. RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 640px) {
+    body {
+        padding: 16px 12px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 1.65em;
+    }
+
+    .cartao {
+        padding: 20px;
+    }
+}
+
+/* ========================================
+   11. PREFERÊNCIA POR MOVIMENTO REDUZIDO
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

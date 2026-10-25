@@ -1,0 +1,6 @@
+# Nunca executar scripts dentro da pasta de uploads.
+<FilesMatch "\.(php|phtml|phar|php[0-9])$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes
