@@ -1,57 +1,91 @@
 @charset "UTF-8";
 
-/* ========================================
-   STYLE.CSS: estilos compartilhados por todas as páginas
-   Sumário:
-   1. Variáveis
-   2. Reset e documento
-   3. Container e tipografia
-   4. Cartão
-   5. Campos de formulário
-   6. Botões
-   7. Alertas
-   8. Links
-   9. Utilidades
-   10. Responsividade
-   11. Movimento reduzido
-======================================== */
+/* Fontes */
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../fonts/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
 
-/* ========================================
-   1. VARIÁVEIS
-======================================== */
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../fonts/JetBrainsMono-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
 
+/* Variáveis */
 :root {
-    color-scheme: light;
+    color-scheme: dark;
 
-    /* Cores */
-    --cor-fundo: #f4f6f9;
-    --cor-superficie: #ffffff;
-    --cor-texto: #202938;
-    --cor-texto-secundario: #64748b;
-    --cor-borda: #dbe2ea;
-    --cor-destaque: #2563eb;
-    --cor-destaque-hover: #1d4ed8;
-    --cor-sucesso: #166534;
-    --cor-fundo-sucesso: #f0fdf4;
-    --cor-borda-sucesso: #bbf7d0;
-    --cor-erro: #b91c1c;
-    --cor-fundo-erro: #fef2f2;
-    --cor-borda-erro: #fecaca;
+    /* Paleta base (tema roxo do login) */
+    --fundo-gradiente-topo: #251f47;
+    --fundo-gradiente-base: #0b0910;
+    --fundo-principal: #13111c;
+    --fundo-card: #1c1929;
+    --fundo-input: #110f18;
+    --fundo-input-hover: #161420;
+    --texto: #f1eff7;
+    --texto-secundario: #9a95aa;
+    --texto-suave: #b3aec2;
+    --texto-inverso: #13111c;
+    --borda: #2d293e;
+    --borda-campo: #6b6680;
+    --destaque: #a78bfa;
+    --destaque-hover: #c4b5fd;
+    --destaque-inverso: #4c1d95;
+    --destaque-brilho: rgb(167 139 250 / 55%);
+
+    /* Alertas */
+    --alerta-erro: #fda4af;
+    --alerta-erro-fundo: #2d1a22;
+    --alerta-erro-borda: #5a2d3a;
+    --alerta-sucesso: #86efac;
+    --alerta-sucesso-fundo: #132a1e;
+    --alerta-sucesso-borda: #245c3b;
 
     /* Tipografia */
-    --fonte-principal: Arial, Helvetica, sans-serif;
+    --fonte-principal: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
+    --fonte-interface: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
     /* Dimensões */
     --largura-container: 672px;
     --raio-borda: 10px;
     --raio-campo: 5px;
-    --sombra-cartao: 0 8px 24px rgb(15 23 42 / 6%);
+    --sombra-cartao:
+        0 1px 0 rgb(255 255 255 / 4%) inset,
+        0 28px 56px -28px rgb(0 0 0 / 70%);
 }
 
-/* ========================================
-   2. RESET E DOCUMENTO
-======================================== */
+/* Em "body" também, para a página poder trocar a paleta base
+   na própria classe do body e estes nomes acompanharem. */
+:root,
+body {
+    --cor-fundo: var(--fundo-principal);
+    --cor-superficie: var(--fundo-card);
+    --cor-texto: var(--texto);
+    --cor-texto-secundario: var(--texto-secundario);
+    --cor-borda: var(--borda);
+    --cor-borda-campo: var(--borda-campo);
 
+    --cor-destaque: var(--destaque);
+    --cor-destaque-hover: var(--destaque-hover);
+    --cor-sobre-destaque: var(--texto-inverso);
+    --cor-foco: var(--destaque-brilho);
+
+    --cor-erro: var(--alerta-erro);
+    --cor-fundo-erro: var(--alerta-erro-fundo);
+    --cor-borda-erro: var(--alerta-erro-borda);
+    --cor-sucesso: var(--alerta-sucesso);
+    --cor-fundo-sucesso: var(--alerta-sucesso-fundo);
+    --cor-borda-sucesso: var(--alerta-sucesso-borda);
+}
+
+/* Reset e documento */
 *,
 *::before,
 *::after {
@@ -68,7 +102,13 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 32px 16px;
-    background-color: var(--cor-fundo);
+    background-color: var(--fundo-gradiente-base);
+    background-image: linear-gradient(
+        180deg,
+        var(--fundo-gradiente-topo) 0%,
+        var(--fundo-gradiente-base) 100%
+    );
+    background-repeat: no-repeat;
     color: var(--cor-texto);
     font-size: 1em;
     line-height: 1.6;
@@ -79,15 +119,17 @@ img {
     max-width: 100%;
 }
 
-/* Garante que o atributo "hidden" funcione mesmo com display definido. */
+/* Faz o atributo "hidden" funcionar mesmo com display definido. */
 [hidden] {
     display: none !important;
 }
 
-/* ========================================
-   3. CONTAINER E TIPOGRAFIA
-======================================== */
+::selection {
+    background-color: var(--destaque-inverso);
+    color: var(--texto);
+}
 
+/* Container e tipografia */
 .conteudo {
     width: 100%;
     max-width: var(--largura-container);
@@ -97,7 +139,7 @@ img {
 h1 {
     margin: 0 0 24px;
     font-size: 2em;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1.2;
     text-align: center;
 }
@@ -105,7 +147,7 @@ h1 {
 h2 {
     margin: 0 0 16px;
     font-size: 1.25em;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1.3;
 }
 
@@ -113,10 +155,17 @@ p {
     margin: 0 0 16px;
 }
 
-/* ========================================
-   4. CARTÃO
-======================================== */
+/* Monoespaçada só nos detalhes de interface. */
+.campo label,
+.botao,
+.ajuda,
+output,
+.feedback-nota,
+.feedback-data {
+    font-family: var(--fonte-interface);
+}
 
+/* Cartão */
 .cartao {
     padding: 32px;
     background-color: var(--cor-superficie);
@@ -125,10 +174,7 @@ p {
     box-shadow: var(--sombra-cartao);
 }
 
-/* ========================================
-   5. CAMPOS DE FORMULÁRIO
-======================================== */
-
+/* Campos de formulário */
 .campo {
     margin-bottom: 20px;
 }
@@ -136,6 +182,7 @@ p {
 .campo label {
     display: block;
     margin-bottom: 6px;
+    font-size: 0.9em;
     font-weight: 600;
 }
 
@@ -146,19 +193,42 @@ p {
     width: 100%;
     min-height: 44px;
     padding: 10px 12px;
-    border: 1px solid var(--cor-borda);
+    border: 1px solid var(--cor-borda-campo);
     border-radius: var(--raio-campo);
-    background-color: var(--cor-superficie);
+    background-color: var(--fundo-input);
     color: var(--cor-texto);
     font-family: inherit;
     font-size: 1em;
 }
 
+.campo input:not([type="range"]):not([type="file"]):hover,
+.campo select:hover,
+.campo textarea:hover {
+    background-color: var(--fundo-input-hover);
+}
+
 .campo input[type="file"] {
     display: block;
     width: 100%;
+    color: var(--cor-texto);
     font-family: inherit;
     font-size: 0.95em;
+}
+
+.campo input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 8px 14px;
+    border: 1px solid var(--cor-borda-campo);
+    border-radius: var(--raio-campo);
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+    font-family: var(--fonte-interface);
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.campo input[type="file"]::file-selector-button:hover {
+    background-color: var(--fundo-input-hover);
 }
 
 .campo input::placeholder,
@@ -178,22 +248,28 @@ select:focus-visible,
 textarea:focus-visible,
 button:focus-visible,
 a:focus-visible {
-    outline: 3px solid rgb(37 99 235 / 40%);
+    outline: 3px solid var(--cor-foco);
     outline-offset: 2px;
 }
 
-/* Texto de ajuda abaixo de um campo. */
+/* Preenchimento automático do navegador: mantém o tema escuro. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--texto);
+    caret-color: var(--texto);
+    box-shadow: 0 0 0 1000px var(--fundo-input) inset;
+    transition: background-color 9999s ease-out;
+}
+
 .ajuda {
     display: block;
     margin-top: 6px;
     color: var(--cor-texto-secundario);
-    font-size: 0.875em;
+    font-size: 0.8em;
 }
 
-/* ========================================
-   6. BOTÕES
-======================================== */
-
+/* Botões */
 .botao {
     display: inline-block;
     min-height: 44px;
@@ -201,9 +277,9 @@ a:focus-visible {
     border: 1px solid transparent;
     border-radius: var(--raio-campo);
     background-color: var(--cor-destaque);
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 1em;
+    box-shadow: 0 8px 20px -10px var(--destaque-brilho);
+    color: var(--cor-sobre-destaque);
+    font-size: 0.95em;
     font-weight: 700;
     line-height: 1.2;
     cursor: pointer;
@@ -220,13 +296,14 @@ a:focus-visible {
 }
 
 .botao-secundario {
-    border-color: var(--cor-borda);
+    border-color: var(--cor-borda-campo);
     background-color: var(--cor-superficie);
+    box-shadow: none;
     color: var(--cor-texto);
 }
 
 .botao-secundario:hover {
-    background-color: var(--cor-fundo);
+    background-color: var(--fundo-input-hover);
 }
 
 .botao-bloco {
@@ -234,10 +311,7 @@ a:focus-visible {
     width: 100%;
 }
 
-/* ========================================
-   7. ALERTAS
-======================================== */
-
+/* Alertas */
 .alerta {
     margin-bottom: 20px;
     padding: 16px;
@@ -267,10 +341,7 @@ a:focus-visible {
     color: var(--cor-erro);
 }
 
-/* ========================================
-   8. LINKS
-======================================== */
-
+/* Links */
 a {
     color: var(--cor-destaque);
 }
@@ -278,10 +349,6 @@ a {
 a:hover {
     color: var(--cor-destaque-hover);
 }
-
-/* ========================================
-   9. UTILIDADES
-======================================== */
 
 /* Esconde visualmente, mas mantém para leitores de tela. */
 .sr-only {
@@ -296,10 +363,7 @@ a:hover {
     border: 0;
 }
 
-/* ========================================
-   10. RESPONSIVIDADE
-======================================== */
-
+/* Responsividade */
 @media (max-width: 640px) {
     body {
         padding: 16px 12px;
@@ -315,10 +379,7 @@ a:hover {
     }
 }
 
-/* ========================================
-   11. PREFERÊNCIA POR MOVIMENTO REDUZIDO
-======================================== */
-
+/* Movimento reduzido */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

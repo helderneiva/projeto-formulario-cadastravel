@@ -1,31 +1,35 @@
 @charset "UTF-8";
 
-/* ========================================
-   PERFIL: foto, dados, feedback e histórico
-   Carregado depois do style.css.
-   Sumário:
-   1. Layout da página
-   2. Topo
-   3. Resumo (avatar e dados)
-   4. Envio da foto
-   5. Formulário de feedback
-   6. Histórico de feedbacks
-   7. Responsividade
-======================================== */
+/* Perfil. Carregado depois do style.css. */
 
-/* ========================================
-   1. LAYOUT DA PÁGINA
-======================================== */
+/* Paleta do perfil: índigo e azul, com o violeta do login como cor
+   secundária. Os nomes --cor-* do style.css acompanham estas variáveis. */
+.pagina-perfil {
+    --fundo-gradiente-topo: #1a2147;
+    --fundo-gradiente-base: #090c16;
+    --fundo-principal: #0e1220;
+    --fundo-card: #171c2e;
+    --fundo-input: #0b0f1b;
+    --fundo-input-hover: #101527;
+    --texto: #eef1fa;
+    --texto-secundario: #9aa3bd;
+    --texto-suave: #b6bdd2;
+    --texto-inverso: #0e1220;
+    --borda: #28304a;
+    --borda-campo: #66708f;
+    --destaque: #7aa2ff;
+    --destaque-hover: #a5bfff;
+    --destaque-inverso: #1e3a8a;
+    --destaque-brilho: rgb(122 162 255 / 50%);
+    --secundario: #a78bfa;
+}
 
+/* Layout */
 .pagina-perfil .conteudo {
     display: grid;
     max-width: 720px;
     gap: 24px;
 }
-
-/* ========================================
-   2. TOPO
-======================================== */
 
 .topo-perfil {
     display: flex;
@@ -40,10 +44,22 @@
     text-align: left;
 }
 
-/* ========================================
-   3. RESUMO (AVATAR E DADOS)
-======================================== */
+/* Tipografia: títulos de seção e dados em mono; rótulos em Plus Jakarta. */
+.pagina-perfil h2 {
+    color: var(--cor-destaque);
+    font-family: var(--fonte-interface);
+    font-size: 0.95em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
 
+.pagina-perfil .campo label {
+    font-family: var(--fonte-principal);
+    font-size: 1em;
+}
+
+/* Avatar e dados */
 .perfil-resumo {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -58,21 +74,20 @@
 .avatar {
     width: 112px;
     height: 112px;
-    border: 3px solid var(--cor-borda);
+    border: 3px solid var(--secundario);
     border-radius: 50%;
     background-color: var(--cor-fundo);
     object-fit: cover;
 }
 
-/* Quando não há foto: círculo com a inicial do nome. */
+/* Sem foto: círculo com a inicial do nome. */
 .avatar-inicial {
     display: grid;
     place-items: center;
-    border-color: var(--cor-destaque);
     background-color: var(--cor-destaque);
-    color: #ffffff;
+    color: var(--cor-sobre-destaque);
     font-size: 2.75rem;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .perfil-dados {
@@ -81,12 +96,17 @@
 
 .perfil-dados dt {
     color: var(--cor-texto-secundario);
-    font-size: 0.9em;
+    font-family: var(--fonte-interface);
+    font-size: 0.75em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .perfil-dados dd {
     margin: 0 0 12px;
-    font-weight: 600;
+    font-family: var(--fonte-interface);
+    font-size: 0.95em;
+    font-weight: 500;
     overflow-wrap: anywhere;
 }
 
@@ -94,10 +114,7 @@
     margin-bottom: 0;
 }
 
-/* ========================================
-   4. ENVIO DA FOTO
-======================================== */
-
+/* Envio da foto */
 .perfil-foto-form {
     grid-column: 1 / -1;
     padding-top: 24px;
@@ -108,16 +125,12 @@
     margin-top: 12px;
 }
 
-/* ========================================
-   5. FORMULÁRIO DE FEEDBACK
-======================================== */
-
+/* Formulário de feedback */
 .pagina-perfil textarea {
     min-height: 140px;
     resize: vertical;
 }
 
-/* Barra deslizante da nota (0 a 10). */
 .pagina-perfil input[type="range"] {
     display: block;
     width: 100%;
@@ -132,22 +145,20 @@
     display: flex;
     justify-content: space-between;
     color: var(--cor-texto-secundario);
-    font-size: 0.85em;
+    font-family: var(--fonte-interface);
+    font-size: 0.8em;
 }
 
-/* Valor da nota exibido ao lado do rótulo. */
+/* Valor da nota ao lado do rótulo. */
 output {
     display: inline-block;
     min-width: 2ch;
-    color: var(--cor-destaque);
+    color: var(--secundario);
     font-size: 1.15em;
     font-weight: 700;
 }
 
-/* ========================================
-   6. HISTÓRICO DE FEEDBACKS
-======================================== */
-
+/* Histórico de feedbacks */
 .lista-feedbacks {
     display: grid;
     margin: 0;
@@ -177,13 +188,14 @@ output {
 }
 
 .feedback-nota {
-    color: var(--cor-destaque);
+    color: var(--secundario);
+    font-size: 0.9em;
     font-weight: 700;
 }
 
 .feedback-data {
     color: var(--cor-texto-secundario);
-    font-size: 0.875em;
+    font-size: 0.8em;
 }
 
 .feedback-vazio {
@@ -191,10 +203,7 @@ output {
     color: var(--cor-texto-secundario);
 }
 
-/* ========================================
-   7. RESPONSIVIDADE
-======================================== */
-
+/* Responsividade */
 @media (max-width: 640px) {
     .perfil-resumo {
         grid-template-columns: 1fr;

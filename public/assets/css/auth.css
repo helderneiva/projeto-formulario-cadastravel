@@ -1,11 +1,8 @@
 @charset "UTF-8";
 
-/* ========================================
-   AUTENTICAÇÃO: telas de login e cadastro
-   Carregado depois do style.css.
-======================================== */
+/* Login e cadastro. Cores e fontes ficam no style.css. */
 
-/* Centraliza o cartão na tela. */
+/* Centraliza a coluna na tela. */
 .pagina-auth {
     display: grid;
     place-items: center;
@@ -15,13 +12,25 @@
     max-width: 440px;
 }
 
+/* Faixa de destaque sob o título. */
 .pagina-auth h1 {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
-/* Link de troca entre login e cadastro, abaixo do cartão. */
+.pagina-auth h1::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 6px;
+    margin-top: 12px;
+    border-radius: 3px;
+    background-color: var(--destaque);
+}
+
+/* Link de troca entre login e cadastro. */
 .auth-rodape {
-    margin: 20px 0 0;
+    margin: 22px 0 0;
+    color: var(--texto-suave);
     text-align: center;
 }
 
